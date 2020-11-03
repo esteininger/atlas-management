@@ -1,10 +1,5 @@
-Atlas Workshop
+Atlas API Workshop
 ===
-
-## Discussion: Connecting Using Private Endpoints or VPC Peering
-[private endpoints](https://docs.atlas.mongodb.com/security-private-endpoint/)
-
-[vpc peering](https://docs.atlas.mongodb.com/security-vpc-peering/)
 
 ## Lab 1: Generating Your API Key
 Atlas API keys can be created at either the organization or project level. For the purposes of this tutorial, we'll just need a project level API key. Here are the steps to get started:
@@ -31,7 +26,7 @@ The body of the request (the value for the ```--data``` flag in curl) defines th
 
 Follow these steps to create your cluster:
 
-1. Add your group id (same as project id!), private key, and public key to the ```_env.config``` file. This file is referenced in all of the sample scripts so we don't have to keep setting these variables over and over for the rest of the workshop.
+1. Add your group id (same as project id!), private key, and public key to the ```env.config``` file. This file is referenced in all of the sample scripts so we don't have to keep setting these variables over and over for the rest of the workshop.
 2. Make sure all the scripts in the ```cluster_management``` directory can be executed ```chmod +x cluster_management/*```
 3. Run the script to create a cluster. 
 
@@ -44,35 +39,8 @@ cd cluster_management
 5. Let's check the status of our cluster to see if it is done starting up. Examine the ```getClusters.sh``` script. This is very similar to creating a cluster, but we're sending a GET instead of a POST. Run ```./getClusters.sh```
 6. Take a look at the stateName field in the response. If it says CREATING, we'll need to wait a bit longer. If it says IDLE, your cluster is ready to go and you're done with the lab!
 
-## Lab 3: Configuring Alerts
-Atlas provides a system of alerts that allows users to keep track of a variety of different events that may take place within a cluster. For this lab, we’ll set up an alert that will send us an email if the dataset exceeds a certain size.
 
-1. To get started, navigate to “Alerts” on the sidebar and select “Alert Settings”
-
-There are a bunch of alerts that are enabled by default helping us track disk usage, cpu usage, failover events, etc. Default alerts can be modified just like alerts that you create yourself.
-
-2. To add a new alert, click “Add” in the upper right corner.
-
-<img src="./img/img1.png" style="padding-left:10%"/>
-
-3. Set an alert so that if a host of any type has a logical data size greater than 250 MB, we’ll get an email.
-
-<img src="./img/img2.png" style="padding-left:10%"/>
-
-4. Set the alert to be sent to “all roles” as an email. Also, browse through the wide variety of other services to which you can send alerts.
-
-5. To trigger our new alert, navigate back to your cluster and click the “...” and then “Load Sample Dataset”
-
-<img src="./img/img3.png" style="padding-left:10%"/>
-
-Once the dataset exceeds 250 MB, the alert should be triggered. This will be visible in the Atlas user interface and an email will be sent to the email address you used to create your Atlas account.
-
-<img src="./img/img4.png" style="padding-left:10%"/>
-
-
-
-
-## Lab 4: Scaling
+## Lab 3: Scaling
 Now that we have our cluster up and running, we may need to scale up our cluster to handle an anticipated increase in workload. Imagine we're running an app within the education industry, and we need to scale up our clusters to handle increased traffic at the beginning of the school year.
 
 1. Examine ```scaleUp.sh```. This will look similar to the script we used to create the cluster, however we're sending a PATCH instead of a POST. We're also specifying the cluster name in the url. The body of the PATCH will be the cluster settings we want to change. In this case, we're changing the providerSettings attribute.
@@ -105,7 +73,7 @@ To pause your cluster...
 3. Run ```./getClusters.sh``` and verify that the value of the cluster's "paused" attribute is true.
 4. Finally, resume the cluster by running ```./resumeCluster.sh```. This sets the ```paused``` value for the cluster to ```false```.
 
-## Lab 5: Managing Backups
+## Lab 4: Managing Backups
 Atlas makes it easy for us to create and manage database backups. In some cases, we may want to automate the backup / restore process. One example where this automation would be helpful is the creation of a temporary cluster for QA testing. We could send Atlas an API call to create a new cluster that matches production, then another API call to restore a backup into this new cluster. We could then run all of our QA tests against this new cluster. Finally, when the testing is complete, we can terminate the new cluster so we don't spend Atlas credits unnecessarily.
 
 Let's now use the API to enable backup, create a backup snapshot, and restore that snapshot to a new cluster.
@@ -135,11 +103,17 @@ Finally, we can restore the backup to our "restore-target" cluster.
 9. Modify the SNAPSHOTID variable in ```restoreBackup.sh``` to match the ID of the snapshot you want to restore from (see step 7 to get this ID).
 10. Run ```./restoreBackup.sh``` and wait a few minutes for the restore to complete. Then, in the Atlas GUI navigate to the collections tab for the "restore-target" cluster and verify the data has been restored.
 
-## Lab 6: Terminating a Cluster
+## Lab 5: Terminating a Cluster
 Now that we've restored a backup to our QA cluster (restore-target), and we have presumably completed all of our QA tests, we can now go ahead and terminate that cluster.
 
 1. Examine ```terminateCluster.sh```. Here we send a DELETE request to a specific cluster (in this case "restore-target). This will terminate the cluster.
 2. Run ```./terminateCluster.sh```.
+
+## Lab 6: Create and View Alerts
+Atlas provides users with the ability to configure custom alerts based on different events (such as an election within a replica set) or metric thresholds. In this lab, we'll create an alert that will notify us if the number of documents being inserted each second exceeds 40.
+1. Examine ```createAlerts.sh```. We're sending a POST to the "alertConfigs" endpoint. In the ```--data``` field, we're specifying that we want to have an alert triggered if a metric threshold is reached. In this case, that metric is ```DOCUMENT_INSERTED``` and the threshold is 40.
+2. Run ./createAlerts.sh
+3. Run ./getAlerts.sh (a GET requests to the alertConfigs endpoint) and ensure that your new alert is included in the result set.
 
 
 ## Lab 7: Challenge - Creating Automated QA Clusters
