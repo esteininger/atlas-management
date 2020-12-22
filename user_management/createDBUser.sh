@@ -2,9 +2,6 @@
 . ../env.config
 
 CLUSTER='sample'
-DAYS_OF_USER_LIFE=1
-
-DELETE_AFTER_DATE=$(date -v +${DAYS_OF_USER_LIFE}d "+%Y-%m-%dT%H:%M:%SZ")
 
 curl --user "${PUBLICKEY}:${PRIVATEKEY}" --digest \
 --header "Accept: application/json" \
@@ -14,8 +11,7 @@ curl --user "${PUBLICKEY}:${PRIVATEKEY}" --digest \
 --data-raw '
   {
     "databaseName": "admin",
-    "deleteAfterDate": "'${DELETE_AFTER_DATE}'",
-    "username": "foo1",
+    "username": "foo",
     "password": "bar",
     "roles": [
         {
