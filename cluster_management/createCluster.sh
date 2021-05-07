@@ -16,5 +16,11 @@ curl --user "${PUBLICKEY}:${PRIVATEKEY}" --digest \
     "providerName": "AWS",
     "instanceSizeName": "M10",
     "regionName":"US_EAST_1"
+  },
+  "labels": [
+  {
+    "key": "example key",
+    "value": "example value"
   }
+   ]
 }'
