@@ -1,5 +1,6 @@
 #!/bin/bash
-. ../env.config
+. ../../env.config
+
 
 HOST=""
 PORT=27017

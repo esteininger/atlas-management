@@ -1,5 +1,5 @@
 #!/bin/bash
-. ../env.config
+. ../../env.config
 
 curl --user "${PUBLICKEY}:${PRIVATEKEY}" --digest \
      --request POST "https://cloud.mongodb.com/api/atlas/v1.0/groups/${GROUPID}/alertConfigs?pretty=true" \

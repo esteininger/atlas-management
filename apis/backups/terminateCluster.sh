@@ -1,6 +1,7 @@
 #!/bin/bash
-. ../env.config
-CLUSTER=restore-target
+. ../../env.config
+
+CLUSTER='restore-target'
 
 curl --user "${PUBLICKEY}:${PRIVATEKEY}" --digest \
 --header "Content-Type: application/json" \

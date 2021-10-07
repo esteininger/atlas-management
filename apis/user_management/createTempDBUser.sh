@@ -1,5 +1,6 @@
 #!/bin/bash
-. ../env.config
+. ../../env.config
+
 
 CLUSTER='sample'
 DAYS_OF_USER_LIFE=1

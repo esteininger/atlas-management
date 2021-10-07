@@ -1,5 +1,6 @@
 #!/bin/bash
-. ../env.config
+. ../../env.config
+
 
 curl --user "${PUBLICKEY}:${PRIVATEKEY}" --digest \
 --header "Content-Type: application/json" \

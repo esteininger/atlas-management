@@ -1,5 +1,6 @@
 #!/bin/bash
-. ../env.config
+. ../../env.config
+
 CLUSTER='sample'
 
 

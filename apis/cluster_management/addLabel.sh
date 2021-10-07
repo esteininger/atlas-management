@@ -1,6 +1,7 @@
 #!/bin/bash
-. ../env.config
-CLUSTER='FreddieMacDev'
+. ../../env.config
+
+CLUSTER='ClusterName'
 
 curl --user "${PUBLICKEY}:${PRIVATEKEY}" --digest \
 --header "Accept: application/json" \

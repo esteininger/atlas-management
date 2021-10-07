@@ -7,7 +7,7 @@ exports = async function() {
 
   // body
   const body = {
-    "paused": "true"
+    "paused": "false"
   }
 
   // iterate over cluster list
@@ -31,7 +31,7 @@ exports = async function() {
     // send the patch
     response = await context.http.patch(arg);
 
-    // TODO: also notify app server of cluster being paused
+    // TODO: also notify app server of cluster resuming from pause
 
     // print readable msg
     console.log(JSON.stringify(response));

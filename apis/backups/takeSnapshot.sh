@@ -1,7 +1,8 @@
 #!/bin/bash
-. ../env.config
+. ../../env.config
 
-CLUSTER=sample
+
+CLUSTER='sample'
 
 curl --user "${PUBLICKEY}:${PRIVATEKEY}" \
   --digest --include \
